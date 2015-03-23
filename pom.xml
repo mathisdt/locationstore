@@ -22,9 +22,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>org.zephyrsoft.locationstore.Application</start-class>
 		<java.version>1.8</java.version>
+		
+		<!-- dependency versions -->
+		<version.vaadin>7.4.2</version.vaadin>
+		<version.vaadin-spring-boot>1.0.0.beta1</version.vaadin-spring-boot>
+		<version.spring-loaded>1.2.3.RELEASE</version.spring-loaded>
 		<version.guava>18.0</version.guava>
 		<version.mybatis>3.2.8</version.mybatis>
 		<version.mybatis-spring>1.2.2</version.mybatis-spring>
+		<version.c3p0>0.9.5</version.c3p0>
 	</properties>
 
 	<dependencies>
@@ -36,14 +42,42 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
-		<!--<dependency>
+		<!--
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>-->
+		</dependency>
+		-->
 		
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-server</artifactId>
+			<version>${version.vaadin}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiled</artifactId>
+			<version>${version.vaadin}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-themes</artifactId>
+			<version>${version.vaadin}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-spring-boot</artifactId>
+			<version>${version.vaadin-spring-boot}</version>
+		</dependency>
+
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>${version.c3p0}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -55,13 +89,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
@@ -77,7 +111,7 @@
 			<artifactId>guava</artifactId>
 			<version>${version.guava}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -90,6 +124,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<dependencies>
+			        <dependency>
+			            <groupId>org.springframework</groupId>
+			            <artifactId>springloaded</artifactId>
+			            <version>${version.spring-loaded}</version>
+			        </dependency>
+			    </dependencies>
 			</plugin>
 		</plugins>
 	</build>
