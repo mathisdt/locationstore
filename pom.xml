@@ -6,10 +6,25 @@
 	<groupId>org.zephyrsoft</groupId>
 	<artifactId>locationstore</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>Location Store</name>
 	<description>backend for viewing locations</description>
+	<url>http://www.zephyrsoft.org</url>
+	
+	<licenses>
+	    <license>
+	        <name>GNU General Public License (GPL), Version 2.0</name>
+	        <url>http://www.gnu.org/licenses/gpl-2.0.html</url>
+	        <distribution>repo</distribution>
+	    </license>
+	</licenses>
+	
+	<scm>
+		<url>https://dev.zephyrsoft.org/svn/locationstore/trunk/</url>
+		<connection>scm:svn:https://dev.zephyrsoft.org/svn/locationstore/trunk/</connection>
+		<developerConnection>scm:svn:https://dev.zephyrsoft.org/svn/locationstore/trunk/</developerConnection>
+	</scm>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -31,6 +46,7 @@
 		<version.mybatis>3.2.8</version.mybatis>
 		<version.mybatis-spring>1.2.2</version.mybatis-spring>
 		<version.c3p0>0.9.5</version.c3p0>
+		<version.javax-el>3.0.0</version.javax-el>
 	</properties>
 
 	<dependencies>
@@ -69,6 +85,17 @@
 			<artifactId>vaadin-spring-boot</artifactId>
 			<version>${version.vaadin-spring-boot}</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>${version.javax-el}</version>
+		</dependency>
+		
+		
 
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
@@ -119,20 +146,217 @@
 		</dependency>
 	</dependencies>
 
+	<organization>
+		<name>ZephyrSoft</name>
+		<url>http://www.zephyrsoft.org</url>
+	</organization>
+	
+	<developers>
+	    <developer>
+	        <id>mathis</id>
+	        <name>Mathis Dirksen-Thedens</name>
+	        <email>dev@zephyrsoft.org</email>
+	    </developer>
+	</developers>
+
+	<repositories>
+		<repository>
+			<id>all</id>
+			<url>${repository_url}</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Internal Release Repository</name>
+			<url>${repository_release_url}</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Internal snapshot Repository</name>
+			<url>${repository_snapshot_url}</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<dependencies>
-			        <dependency>
-			            <groupId>org.springframework</groupId>
-			            <artifactId>springloaded</artifactId>
-			            <version>${version.spring-loaded}</version>
-			        </dependency>
-			    </dependencies>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>${version.java}</source>
+					<target>${version.java}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/distribution/lib</outputDirectory>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<outputDirectory>${project.build.directory}/distribution/bin</outputDirectory>
+					<finalName>${project.artifactId}</finalName>
+					<archive>
+						<manifest>
+							<mainClass>${start-class}</mainClass>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>../lib/</classpathPrefix>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+						<manifestEntries>
+							<Build-Jdk>${java.version}</Build-Jdk>
+							<Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+				    <execution>
+				        <id>attach-sources</id>
+				        <goals>
+				            <goal>jar</goal>
+				        </goals>
+				    </execution>
+				</executions>
+				<configuration>
+					<outputDirectory>${project.build.directory}/distribution/bin</outputDirectory>
+					<finalName>${project.artifactId}</finalName>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy todir="${project.build.directory}/distribution"
+									overwrite="true" verbose="true">
+									<fileset dir="${project.basedir}/src/dist" includes="**" />
+								</copy>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>zip</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+					<finalName>${project.artifactId}-${project.version}</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptors>
+						<descriptor>src/main/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-distribution</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>target/${project.artifactId}-${project.version}.zip</file>
+									<type>zip</type>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.8,)
+										</versionRange>
+										<goals>
+											<goal>
+												copy-dependencies
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>
