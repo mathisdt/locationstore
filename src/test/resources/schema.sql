@@ -1,0 +1,22 @@
+-- a user needs a password to login and e.g. create tokens
+CREATE TABLE IF NOT EXISTS USER (
+  ID BIGINT IDENTITY PRIMARY KEY,
+  USERNAME VARCHAR UNIQUE,
+  PASSWORD VARCHAR
+);
+
+-- each user can have multiple tokens for authenticating for the web service
+CREATE TABLE IF NOT EXISTS TOKEN (
+  ID BIGINT IDENTITY PRIMARY KEY,
+  USERNAME VARCHAR,
+  TOKEN VARCHAR UNIQUE
+);
+
+-- each user can post locations via web service
+CREATE TABLE IF NOT EXISTS LOCATION (
+  ID BIGINT IDENTITY PRIMARY KEY,
+  USERNAME VARCHAR,
+  INSTANT TIMESTAMP,
+  LONGITUDE DECIMAL(11,8),
+  LATITUDE DECIMAL(11,8)
+);

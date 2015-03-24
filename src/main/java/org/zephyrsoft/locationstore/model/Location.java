@@ -2,8 +2,8 @@ package org.zephyrsoft.locationstore.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+
+import org.zephyrsoft.locationstore.util.DateTimeUtil;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -35,13 +35,12 @@ public class Location {
 	
 	@JsonGetter("instant")
 	public String getInstantJson() {
-		return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.GERMANY).format(instant);
+		return DateTimeUtil.toString(instant);
 	}
 	
 	@JsonSetter("instant")
 	public void setInstantJson(String instant) {
-		this.instant = LocalDateTime.from(
-			DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.GERMANY).parse(instant));
+		this.instant = DateTimeUtil.fromString(instant);
 	}
 	
 	public LocalDateTime getInstant() {

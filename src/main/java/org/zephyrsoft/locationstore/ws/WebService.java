@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +14,9 @@ import org.zephyrsoft.locationstore.dao.LocationMapper;
 import org.zephyrsoft.locationstore.model.Location;
 import org.zephyrsoft.locationstore.service.AuthenticationService;
 
+/**
+ * No {@code @RequestMapping(produces = "...")} because it breaks some tests!
+ */
 @RestController
 @RequestMapping("/ws")
 public class WebService {
@@ -31,8 +31,7 @@ public class WebService {
 	}
 	
 	@RequestMapping(value = "",
-		method = RequestMethod.GET,
-		produces = MediaType.TEXT_HTML)
+		method = RequestMethod.GET)
 	public String info(HttpServletRequest request) {
 		String basePath = request.getRequestURL().toString().replaceAll("/ws/?$", "");
 		return "<strong>This is the web service</strong> - perhaps you want to <a href=\"" +
@@ -40,21 +39,19 @@ public class WebService {
 	}
 	
 	@RequestMapping(value = "/{username}/{token}/locations",
-		method = RequestMethod.GET,
-		produces = MediaType.APPLICATION_JSON)
+		method = RequestMethod.GET)
 	public List<Location> getUser(@PathVariable("username") final String username,
 		@PathVariable("token") final String token) {
 		
 		if (authenticationService.isAuthorized(username, token)) {
 			return locationMapper.read(username);
 		} else {
-			throw new WebApplicationException(Status.UNAUTHORIZED);
+			throw new InvalidAuthenticationException();
 		}
 	}
 	
 	@RequestMapping(value = "/{username}/{token}/add-location/{latitude:[\\d\\.]+}/{longitude:[\\d\\.]+}",
-		method = RequestMethod.GET,
-		produces = MediaType.TEXT_PLAIN)
+		method = RequestMethod.GET)
 	public String addLocation(@PathVariable("username") final String username,
 		@PathVariable("token") final String token, @PathVariable("latitude") final BigDecimal latitude,
 		@PathVariable("longitude") final BigDecimal longitude) {
@@ -63,7 +60,7 @@ public class WebService {
 			locationMapper.insert(username, new Location(latitude, longitude));
 			return "OK";
 		} else {
-			throw new WebApplicationException(Status.UNAUTHORIZED);
+			throw new InvalidAuthenticationException();
 		}
 	}
 }

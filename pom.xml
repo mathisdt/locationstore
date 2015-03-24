@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>Location Store</name>
-	<description>backend for viewing locations</description>
+	<description>backend for storing locations</description>
 	<url>http://www.zephyrsoft.org</url>
 
 	<licenses>
@@ -37,6 +37,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>org.zephyrsoft.locationstore.Application</start-class>
 		<java.version>1.8</java.version>
+		<version.java>${java.version}</version.java>
 
 		<!-- dependency versions -->
 		<version.vaadin>7.4.2</version.vaadin>
@@ -46,7 +47,6 @@
 		<version.mybatis>3.2.8</version.mybatis>
 		<version.mybatis-spring>1.2.2</version.mybatis-spring>
 		<version.c3p0>0.9.5</version.c3p0>
-		<version.javax-el>3.0.0</version.javax-el>
 	</properties>
 
 	<dependencies>
@@ -130,9 +130,22 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
 		</dependency>
 	</dependencies>
 
