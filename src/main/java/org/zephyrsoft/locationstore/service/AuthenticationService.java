@@ -7,13 +7,17 @@ import org.zephyrsoft.locationstore.model.Token;
 
 @Service
 public class AuthenticationService {
-
+	
+	private final TokenMapper tokenMapper;
+	
 	@Autowired
-	private TokenMapper tokenMapper;
-
+	public AuthenticationService(TokenMapper tokenMapper) {
+		this.tokenMapper = tokenMapper;
+	}
+	
 	public boolean isAuthorized(final String username, final String token) {
 		Token fromDB = tokenMapper.readSingle(username, token);
 		return fromDB != null;
 	}
-
+	
 }

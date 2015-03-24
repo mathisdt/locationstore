@@ -11,14 +11,13 @@ import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
 public class LocalDateTimeTypeHandler extends BaseTypeHandler<LocalDateTime> {
-
+	
 	@Override
 	public void setNonNullParameter(final PreparedStatement ps, final int i, final LocalDateTime parameter,
-		final JdbcType jdbcType)
-		throws SQLException {
+		final JdbcType jdbcType) throws SQLException {
 		ps.setTimestamp(i, Timestamp.valueOf(parameter));
 	}
-
+	
 	@Override
 	public LocalDateTime getNullableResult(final ResultSet rs, final String columnName) throws SQLException {
 		final Timestamp timestamp = rs.getTimestamp(columnName);
@@ -28,7 +27,7 @@ public class LocalDateTimeTypeHandler extends BaseTypeHandler<LocalDateTime> {
 			return timestamp.toLocalDateTime();
 		}
 	}
-
+	
 	@Override
 	public LocalDateTime getNullableResult(final ResultSet rs, final int columnIndex) throws SQLException {
 		final Timestamp timestamp = rs.getTimestamp(columnIndex);
@@ -38,7 +37,7 @@ public class LocalDateTimeTypeHandler extends BaseTypeHandler<LocalDateTime> {
 			return timestamp.toLocalDateTime();
 		}
 	}
-
+	
 	@Override
 	public LocalDateTime getNullableResult(final CallableStatement cs, final int columnIndex) throws SQLException {
 		final Timestamp timestamp = cs.getTimestamp(columnIndex);
@@ -48,5 +47,5 @@ public class LocalDateTimeTypeHandler extends BaseTypeHandler<LocalDateTime> {
 			return timestamp.toLocalDateTime();
 		}
 	}
-
+	
 }

@@ -21,10 +21,14 @@ import org.zephyrsoft.locationstore.service.AuthenticationService;
 @RequestMapping("/ws")
 public class WebService {
 	
+	private final AuthenticationService authenticationService;
+	private final LocationMapper locationMapper;
+	
 	@Autowired
-	private AuthenticationService authenticationService;
-	@Autowired
-	private LocationMapper locationMapper;
+	public WebService(AuthenticationService authenticationService, LocationMapper locationMapper) {
+		this.authenticationService = authenticationService;
+		this.locationMapper = locationMapper;
+	}
 	
 	@RequestMapping(value = "",
 		method = RequestMethod.GET,
