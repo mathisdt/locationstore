@@ -11,7 +11,7 @@
 	<name>Location Store</name>
 	<description>backend for viewing locations</description>
 	<url>http://www.zephyrsoft.org</url>
-	
+
 	<licenses>
 	    <license>
 	        <name>GNU General Public License (GPL), Version 2.0</name>
@@ -19,7 +19,7 @@
 	        <distribution>repo</distribution>
 	    </license>
 	</licenses>
-	
+
 	<scm>
 		<url>https://dev.zephyrsoft.org/svn/locationstore/trunk/</url>
 		<connection>scm:svn:https://dev.zephyrsoft.org/svn/locationstore/trunk/</connection>
@@ -37,7 +37,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>org.zephyrsoft.locationstore.Application</start-class>
 		<java.version>1.8</java.version>
-		
+
 		<!-- dependency versions -->
 		<version.vaadin>7.4.2</version.vaadin>
 		<version.vaadin-spring-boot>1.0.0.beta1</version.vaadin-spring-boot>
@@ -64,7 +64,7 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		-->
-		
+
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-server</artifactId>
@@ -85,17 +85,7 @@
 			<artifactId>vaadin-spring-boot</artifactId>
 			<version>${version.vaadin-spring-boot}</version>
 		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>javax.el-api</artifactId>
-			<version>${version.javax-el}</version>
-		</dependency>
-		
-		
+
 
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
@@ -150,7 +140,7 @@
 		<name>ZephyrSoft</name>
 		<url>http://www.zephyrsoft.org</url>
 	</organization>
-	
+
 	<developers>
 	    <developer>
 	        <id>mathis</id>
@@ -197,46 +187,7 @@
 					<target>${version.java}</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/distribution/lib</outputDirectory>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<outputDirectory>${project.build.directory}/distribution/bin</outputDirectory>
-					<finalName>${project.artifactId}</finalName>
-					<archive>
-						<manifest>
-							<mainClass>${start-class}</mainClass>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>../lib/</classpathPrefix>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-						<manifestEntries>
-							<Build-Jdk>${java.version}</Build-Jdk>
-							<Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-			
+
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -249,7 +200,7 @@
 				    </execution>
 				</executions>
 				<configuration>
-					<outputDirectory>${project.build.directory}/distribution/bin</outputDirectory>
+					<outputDirectory>${project.build.directory}/distribution</outputDirectory>
 					<finalName>${project.artifactId}</finalName>
 				</configuration>
 			</plugin>
@@ -258,6 +209,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>copy-dist-files</id>
 						<phase>prepare-package</phase>
 						<goals>
 							<goal>run</goal>
@@ -273,6 +225,46 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<!-- no classifier to make Maven not attach this JAR -->
+					<!-- (Spring Boot will not be able to attach the JAR it creates later if there is already a JAR attached) -->
+					<classifier></classifier>
+					<outputDirectory>${project.build.directory}/distribution</outputDirectory>
+					<finalName>${project.artifactId}</finalName>
+					<archive>
+						<manifest>
+							<mainClass>${start-class}</mainClass>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+						<manifestEntries>
+							<Build-Jdk>${java.version}</Build-Jdk>
+							<Build-Timestamp>${maven.build.timestamp}</Build-Timestamp>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+        			<mainClass>${start-class}</mainClass>
+        			<outputDirectory>${project.build.directory}/distribution</outputDirectory>
+					<finalName>${project.artifactId}</finalName>
+      			</configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -321,7 +313,7 @@
 
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
+				<!--This plugin's configuration is used to store Eclipse m2e settings
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
