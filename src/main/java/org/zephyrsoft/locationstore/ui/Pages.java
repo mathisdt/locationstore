@@ -1,18 +1,12 @@
 package org.zephyrsoft.locationstore.ui;
 
-public enum Pages {
+public class Pages {
 	
-	HOME(""),
-	ADMINISTRATION("admin");
+	public static final String HOME = "";
+	public static final String ADMINISTRATION = "admin";
 	
-	private final String navigationTarget;
-	
-	private Pages(String navigationTarget) {
-		this.navigationTarget = navigationTarget;
-	}
-	
-	public String getNavigationTarget() {
-		return navigationTarget;
+	private Pages() {
+		// not instantiable
 	}
 	
 }
