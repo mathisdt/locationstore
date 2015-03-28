@@ -6,6 +6,7 @@ import org.zephyrsoft.locationstore.dao.TokenMapper;
 import org.zephyrsoft.locationstore.dao.TransactionalDao;
 import org.zephyrsoft.locationstore.dao.UserMapper;
 import org.zephyrsoft.locationstore.model.User;
+import org.zephyrsoft.locationstore.model.User.UserProperties;
 import org.zephyrsoft.locationstore.ui.Pages;
 import org.zephyrsoft.locationstore.ui.Roles;
 
@@ -28,6 +29,8 @@ import com.vaadin.ui.VerticalLayout;
 public class AdminPage extends VerticalLayout implements View {
 	
 	private static final long serialVersionUID = 146768140068343010L;
+	
+	private static final String TOKENCOUNT = "tokencount";
 	
 	private BeanItemContainer<User> dataSource;
 	private GeneratedPropertyContainer dataSourceWrapper;
@@ -74,8 +77,7 @@ public class AdminPage extends VerticalLayout implements View {
 			delete.setEnabled(event.getSelected().size() > 0);
 		});
 		
-		// TODO externalize property names of class User - perhaps using Apache Commons BeanUtils?
-		dataSourceWrapper.addGeneratedProperty("tokencount", new PropertyValueGenerator<Long>() {
+		dataSourceWrapper.addGeneratedProperty(TOKENCOUNT, new PropertyValueGenerator<Long>() {
 			private static final long serialVersionUID = -7903718427056116642L;
 			
 			@Override
@@ -89,15 +91,15 @@ public class AdminPage extends VerticalLayout implements View {
 				return Long.class;
 			}
 		});
-		dataSourceWrapper.removeContainerProperty("accountNonExpired");
-		dataSourceWrapper.removeContainerProperty("accountNonLocked");
-		dataSourceWrapper.removeContainerProperty("authorities");
-		dataSourceWrapper.removeContainerProperty("credentialsNonExpired");
-		dataSourceWrapper.removeContainerProperty("enabled");
-		dataSourceWrapper.removeContainerProperty("id");
-		dataSourceWrapper.removeContainerProperty("password");
-		dataSourceWrapper.removeContainerProperty("roles");
-		grid.setColumnOrder("fullname", "username", "tokencount", "admin");
+		dataSourceWrapper.removeContainerProperty(UserProperties.ACCOUNT_NON_EXPIRED);
+		dataSourceWrapper.removeContainerProperty(UserProperties.ACCOUNT_NON_LOCKED);
+		dataSourceWrapper.removeContainerProperty(UserProperties.AUTHORITIES);
+		dataSourceWrapper.removeContainerProperty(UserProperties.CREDENTIALS_NON_EXPIRED);
+		dataSourceWrapper.removeContainerProperty(UserProperties.ENABLED);
+		dataSourceWrapper.removeContainerProperty(UserProperties.ID);
+		dataSourceWrapper.removeContainerProperty(UserProperties.PASSWORD);
+		dataSourceWrapper.removeContainerProperty(UserProperties.ROLES);
+		grid.setColumnOrder(UserProperties.FULLNAME, UserProperties.USERNAME, TOKENCOUNT, UserProperties.ADMIN);
 	}
 	
 	@Override

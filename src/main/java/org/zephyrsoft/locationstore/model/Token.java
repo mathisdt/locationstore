@@ -2,6 +2,11 @@ package org.zephyrsoft.locationstore.model;
 
 public class Token {
 	
+	public static final class TokenProperties {
+		public static final String ID = "id";
+		public static final String TOKEN = "token";
+	}
+	
 	private Long id;
 	private String token;
 	

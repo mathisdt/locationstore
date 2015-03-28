@@ -12,6 +12,22 @@ public class User implements UserDetails {
 	
 	private static final long serialVersionUID = 4099609658931426256L;
 	
+	public static final class UserProperties {
+		// normal properties
+		public static final String ID = "id";
+		public static final String FULLNAME = "fullname";
+		public static final String USERNAME = "username";
+		public static final String PASSWORD = "password";
+		public static final String ADMIN = "admin";
+		// generated properties
+		public static final String ACCOUNT_NON_EXPIRED = "accountNonExpired";
+		public static final String ACCOUNT_NON_LOCKED = "accountNonLocked";
+		public static final String CREDENTIALS_NON_EXPIRED = "credentialsNonExpired";
+		public static final String ENABLED = "enabled";
+		public static final String AUTHORITIES = "authorities";
+		public static final String ROLES = "roles";
+	}
+	
 	private Long id;
 	private String fullname;
 	private String username;
