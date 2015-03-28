@@ -1,5 +1,7 @@
 package org.zephyrsoft.locationstore.ui.pages;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.zephyrsoft.locationstore.dao.TokenMapper;
@@ -14,6 +16,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.PropertyValueGenerator;
+import com.vaadin.data.util.converter.Converter;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
@@ -23,6 +26,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.HtmlRenderer;
 
 @Secured(Roles.ADMIN)
 @SpringView(name = Pages.ADMINISTRATION)
@@ -100,6 +104,37 @@ public class AdminPage extends VerticalLayout implements View {
 		dataSourceWrapper.removeContainerProperty(UserProperties.PASSWORD);
 		dataSourceWrapper.removeContainerProperty(UserProperties.ROLES);
 		grid.setColumnOrder(UserProperties.FULLNAME, UserProperties.USERNAME, TOKENCOUNT, UserProperties.ADMIN);
+		
+		grid.getColumn(UserProperties.FULLNAME).setHeaderCaption("Full Name");
+		grid.getColumn(UserProperties.USERNAME).setHeaderCaption("User Name");
+		grid.getColumn(TOKENCOUNT).setHeaderCaption("Defined Tokens");
+		grid.getColumn(UserProperties.ADMIN).setHeaderCaption("Administrator?");
+		grid.getColumn(UserProperties.ADMIN).setRenderer(new HtmlRenderer(), new Converter<String, Boolean>() {
+			private static final long serialVersionUID = -4025419889363944262L;
+			
+			@Override
+			public Boolean convertToModel(String value, Class<? extends Boolean> targetType, Locale locale)
+				throws com.vaadin.data.util.converter.Converter.ConversionException {
+				throw new UnsupportedOperationException("not implemented");
+			}
+			
+			@Override
+			public String convertToPresentation(Boolean value, Class<? extends String> targetType, Locale locale)
+				throws com.vaadin.data.util.converter.Converter.ConversionException {
+				return "<input type=\"checkbox\" disabled=\"disabled\" "
+					+ (Boolean.TRUE.equals(value) ? "checked=\"checked\"" : "") + "/>";
+			}
+			
+			@Override
+			public Class<Boolean> getModelType() {
+				return Boolean.class;
+			}
+			
+			@Override
+			public Class<String> getPresentationType() {
+				return String.class;
+			}
+		});
 	}
 	
 	@Override

@@ -60,7 +60,8 @@ public class VaadinUI extends UI {
 		titleBarRight.addComponent(titleBarRightTop);
 		titleBarRight.setComponentAlignment(titleBarRightTop, Alignment.TOP_RIGHT);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Label userInfo = new Label("logged in as " + (user.isAdmin() ? "administrator " : "user ") + user.getUsername());
+		Label userInfo = new Label((user.isAdmin() ? "Administrator " : "User ") + user.getFullname()
+			+ " (" + user.getUsername() + ")");
 		titleBarRightTop.addComponent(userInfo);
 		titleBarRightTop.setComponentAlignment(userInfo, Alignment.MIDDLE_RIGHT);
 		Button logout = new Button("log out");
