@@ -1,8 +1,10 @@
 -- a user needs a password to login and e.g. create tokens
 CREATE TABLE IF NOT EXISTS USER (
   ID BIGINT IDENTITY PRIMARY KEY,
+  FULLNAME VARCHAR,
   USERNAME VARCHAR UNIQUE,
-  PASSWORD VARCHAR
+  PASSWORD VARCHAR,
+  ADMIN BOOLEAN
 );
 
 -- each user can have multiple tokens for authenticating for the web service

@@ -15,10 +15,10 @@ import org.zephyrsoft.locationstore.model.Location;
 
 @MapperInterface
 public interface LocationMapper {
-
+	
 	@Select({
 		"select * from location",
-		"where username=#{username}",
+		"where username=lower(#{username})",
 		"order by instant"
 	})
 	@Results({
@@ -28,10 +28,10 @@ public interface LocationMapper {
 			typeHandler = LocalDateTimeTypeHandler.class)
 	})
 	List<Location> read(@Param("username") String username);
-
+	
 	@Insert({
 		"insert into location (username, instant, latitude, longitude) values (",
-		"#{username},",
+		"lower(#{username}),",
 		"#{location.instant,javaType=java.time.LocalDateTime,jdbcType=TIMESTAMP,typeHandler=org.zephyrsoft.locationstore.dao.typehandler.LocalDateTimeTypeHandler},",
 		"#{location.latitude},",
 		"#{location.longitude}",
@@ -39,11 +39,11 @@ public interface LocationMapper {
 	})
 	@Options(useGeneratedKeys = true, keyProperty = "location.id")
 	void insert(@Param("username") String username, @Param("location") Location location);
-
+	
 	@Delete({
 		"delete from location",
 		"where id=#{location.id}"
 	})
 	void delete(@Param("location") Location location);
-
+	
 }

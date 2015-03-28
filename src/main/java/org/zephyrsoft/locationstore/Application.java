@@ -20,7 +20,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @EnableTransactionManagement
 @MapperScan(basePackages = "org.zephyrsoft.locationstore.dao", annotationClass = MapperInterface.class)
 public class Application {
-
+	
 	@Value("${db.driver}")
 	private String dbDriver;
 	@Value("${db.url}")
@@ -29,7 +29,7 @@ public class Application {
 	private String dbUser;
 	@Value("${db.password}")
 	private String dbPassword;
-
+	
 	@Bean
 	public DataSource dataSource() throws PropertyVetoException {
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
@@ -44,7 +44,7 @@ public class Application {
 		dataSource.setMaxIdleTime(300);
 		return dataSource;
 	}
-
+	
 	@Bean
 	public SqlSessionFactory sqlSessionFactory() throws PropertyVetoException {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
@@ -55,7 +55,7 @@ public class Application {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public static void main(final String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

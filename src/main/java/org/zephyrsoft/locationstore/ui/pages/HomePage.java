@@ -1,14 +1,17 @@
 package org.zephyrsoft.locationstore.ui.pages;
 
+import org.springframework.security.access.annotation.Secured;
 import org.zephyrsoft.locationstore.ui.Pages;
+import org.zephyrsoft.locationstore.ui.Roles;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+@Secured(Roles.USER)
 @SpringView(name = Pages.HOME)
 public class HomePage extends VerticalLayout implements View {
 	
@@ -19,15 +22,14 @@ public class HomePage extends VerticalLayout implements View {
 		setMargin(true);
 		setSizeFull();
 		
-		Button button = new Button("Go to Admin Page", event -> {
-			getUI().getNavigator().navigateTo(Pages.ADMINISTRATION);
-		});
-		addComponent(button);
-		setComponentAlignment(button, Alignment.MIDDLE_CENTER);
+		Label nothing = new Label("nothing here yet");
+		nothing.setWidth(100, Unit.PERCENTAGE);
+		addComponent(nothing);
+		setComponentAlignment(nothing, Alignment.MIDDLE_CENTER);
 	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO check permissions
+		// TODO
 	}
 }

@@ -43,6 +43,7 @@
 		<version.vaadin>7.4.2</version.vaadin>
 		<version.vaadin-spring-boot>1.0.0.beta1</version.vaadin-spring-boot>
 		<version.spring-loaded>1.2.3.RELEASE</version.spring-loaded>
+		<version.log4j-extras>1.1</version.log4j-extras>
 		<version.guava>18.0</version.guava>
 		<version.mybatis>3.2.8</version.mybatis>
 		<version.mybatis-spring>1.2.2</version.mybatis-spring>
@@ -53,17 +54,29 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jboss-logging</artifactId>
+					<groupId>org.jboss.logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-log4j</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
-		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		-->
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
@@ -85,7 +98,6 @@
 			<artifactId>vaadin-spring-boot</artifactId>
 			<version>${version.vaadin-spring-boot}</version>
 		</dependency>
-
 
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
@@ -128,6 +140,11 @@
 			<artifactId>guava</artifactId>
 			<version>${version.guava}</version>
 		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>apache-log4j-extras</artifactId>
+			<version>${version.log4j-extras}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -139,13 +156,20 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jetty</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
 		</dependency>
 	</dependencies>
 

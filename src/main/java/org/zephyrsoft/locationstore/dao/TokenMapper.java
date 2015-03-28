@@ -11,30 +11,36 @@ import org.zephyrsoft.locationstore.model.Token;
 
 @MapperInterface
 public interface TokenMapper {
-
+	
 	@Select({
 		"select * from token",
 		"where username=#{username}"
 	})
 	Set<Token> read(@Param("username") String username);
-
+	
+	@Select({
+		"select count(*) from token",
+		"where username=#{username}"
+	})
+	Long count(@Param("username") String username);
+	
 	@Select({
 		"select * from token",
 		"where username=#{username} and token=#{token}"
 	})
 	Token readSingle(@Param("username") String username, @Param("token") String token);
-
+	
 	@Insert({
 		"insert into token (username, token)",
 		"values (#{token.username}, #{token.token})"
 	})
 	@Options(useGeneratedKeys = true, keyProperty = "token.id")
 	void insert(@Param("token") Token token);
-
+	
 	@Delete({
 		"delete from token",
 		"where id=#{token.id}"
 	})
 	void delete(@Param("token") Token token);
-
+	
 }
