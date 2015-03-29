@@ -42,6 +42,12 @@ public interface LocationMapper {
 	
 	@Delete({
 		"delete from location",
+		"where username=lower(#{username})"
+	})
+	void deleteForUser(@Param("username") String username);
+	
+	@Delete({
+		"delete from location",
 		"where id=#{location.id}"
 	})
 	void delete(@Param("location") Location location);

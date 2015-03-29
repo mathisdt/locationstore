@@ -42,6 +42,7 @@
 		<!-- dependency versions -->
 		<version.vaadin>7.4.2</version.vaadin>
 		<version.vaadin-spring-boot>1.0.0.beta1</version.vaadin-spring-boot>
+		<version.vaadin-confirmdialog>2.1.2</version.vaadin-confirmdialog>
 		<version.spring-loaded>1.2.3.RELEASE</version.spring-loaded>
 		<version.log4j-extras>1.1</version.log4j-extras>
 		<version.guava>18.0</version.guava>
@@ -97,6 +98,11 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring-boot</artifactId>
 			<version>${version.vaadin-spring-boot}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addon</groupId>
+			<artifactId>confirmdialog</artifactId>
+			<version>${version.vaadin-confirmdialog}</version>
 		</dependency>
 
 		<dependency>

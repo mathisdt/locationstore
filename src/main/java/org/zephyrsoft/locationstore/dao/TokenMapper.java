@@ -39,6 +39,12 @@ public interface TokenMapper {
 	
 	@Delete({
 		"delete from token",
+		"where username=lower(#{username})"
+	})
+	void deleteForUser(@Param("username") String username);
+	
+	@Delete({
+		"delete from token",
 		"where id=#{token.id}"
 	})
 	void delete(@Param("token") Token token);

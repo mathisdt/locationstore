@@ -27,8 +27,15 @@
 		</layout>
 	</appender>
 
+	<logger name="org.zephyrsoft.locationstore.dao">
+		<level value="INFO" />
+	</logger>
+	
 	<logger name="org.springframework">
 		<level value="WARN" />
+	</logger>
+	<logger name="org.springframework.jdbc">
+		<level value="INFO" />
 	</logger>
 	<logger name="com.vaadin.spring">
 		<level value="INFO" />

@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.vaadin.dialogs.ConfirmDialog;
 import org.zephyrsoft.locationstore.dao.TokenMapper;
 import org.zephyrsoft.locationstore.dao.TransactionalDao;
 import org.zephyrsoft.locationstore.dao.UserMapper;
@@ -64,13 +65,30 @@ public class AdminPage extends VerticalLayout implements View {
 		addComponent(buttonBar);
 		setComponentAlignment(buttonBar, Alignment.BOTTOM_RIGHT);
 		Button add = new Button("Add");
+		add.addClickListener(event -> {
+			showPopup(null);
+		});
 		buttonBar.addComponent(add);
 		buttonBar.setComponentAlignment(add, Alignment.MIDDLE_RIGHT);
 		Button edit = new Button("Edit");
+		edit.addClickListener(event -> {
+			showPopup((User) grid.getSelectedRow());
+		});
 		edit.setEnabled(false);
 		buttonBar.addComponent(edit);
 		buttonBar.setComponentAlignment(edit, Alignment.MIDDLE_RIGHT);
 		Button delete = new Button("Delete");
+		delete.addClickListener(event -> {
+			User userToDelete = (User) grid.getSelectedRow();
+			ConfirmDialog.show(getUI(), "Question", "Really delete user " + userToDelete.getFullname() + " ("
+				+ userToDelete.getUsername() + ") including all saved locations and tokens?", "Yes, delete",
+				"No, cancel", dialog -> {
+					if (dialog.isConfirmed()) {
+						transactionalDao.deleteUserCompletely(userToDelete);
+						refresh();
+					}
+				});
+		});
 		delete.setEnabled(false);
 		buttonBar.addComponent(delete);
 		buttonBar.setComponentAlignment(delete, Alignment.MIDDLE_RIGHT);
@@ -139,7 +157,16 @@ public class AdminPage extends VerticalLayout implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
+		refresh();
+	}
+	
+	private void refresh() {
+		dataSource.removeAllItems();
 		dataSource.addAll(userMapper.readAll());
+	}
+	
+	private void showPopup(User user) {
+		
 	}
 	
 }

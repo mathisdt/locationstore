@@ -3,6 +3,9 @@ package org.zephyrsoft.locationstore.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.zephyrsoft.locationstore.model.User;
+
+import com.google.common.base.Preconditions;
 
 @Transactional
 @Repository
@@ -19,6 +22,13 @@ public class TransactionalDao {
 		this.locationMapper = locationMapper;
 	}
 	
-	// TODO add methods that need transactional behaviour
-	
+	public void deleteUserCompletely(User user) {
+		Preconditions.checkArgument(user != null);
+		Preconditions.checkArgument(user.getUsername() != null);
+		Preconditions.checkArgument(user.getId() != null);
+		
+		locationMapper.deleteForUser(user.getUsername());
+		tokenMapper.deleteForUser(user.getUsername());
+		userMapper.delete(user);
+	}
 }
