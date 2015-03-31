@@ -25,6 +25,7 @@ public class HomePage extends VerticalLayout implements View {
 		Label nothing = new Label("nothing here yet");
 		nothing.setWidth(100, Unit.PERCENTAGE);
 		addComponent(nothing);
+		setExpandRatio(nothing, 1);
 		setComponentAlignment(nothing, Alignment.MIDDLE_CENTER);
 	}
 	
