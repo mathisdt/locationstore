@@ -46,6 +46,12 @@
 	<logger name="org.mybatis.spring">
 		<level value="INFO" />
 	</logger>
+	<logger name="org.apache.ibatis">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.jboss.logging">
+		<level value="WARN" />
+	</logger>
 	<logger name="com.mchange">
 		<level value="WARN" />
 	</logger>

@@ -6,6 +6,7 @@ import org.zephyrsoft.locationstore.ui.Roles;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
@@ -22,10 +23,8 @@ public class HomePage extends VerticalLayout implements View {
 		setMargin(true);
 		setSizeFull();
 		
-		Label nothing = new Label("nothing here yet");
-		nothing.setWidth(100, Unit.PERCENTAGE);
+		Label nothing = new Label("<div style=\"text-align:center\">nothing here yet</div>", ContentMode.HTML);
 		addComponent(nothing);
-		setExpandRatio(nothing, 1);
 		setComponentAlignment(nothing, Alignment.MIDDLE_CENTER);
 	}
 	
