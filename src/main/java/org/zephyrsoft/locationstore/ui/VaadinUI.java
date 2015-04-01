@@ -101,5 +101,8 @@ public class VaadinUI extends UI {
 		Navigator navigator = new Navigator(this, viewContainer);
 		navigator.addProvider(viewProvider);
 		// the navigator is automatically held by this UI and available via getNavigator()
+		
+		// add view security
+		navigator.addViewChangeListener(new ViewSecurity());
 	}
 }
