@@ -26,15 +26,18 @@ public interface UserMapper {
 	List<User> readAll();
 	
 	@Insert({
-		"insert into user (username, password)",
-		"values (lower(#{user.username}), #{user.password})"
+		"insert into user (fullname, username, password, admin)",
+		"values (#{user.fullname}, lower(#{user.username}), #{user.password}, #{user.admin})"
 	})
 	@Options(useGeneratedKeys = true, keyProperty = "user.id")
 	void insert(@Param("user") User user);
 	
 	@Update({
 		"update user",
-		"set password=#{user.password}",
+		"set fullname=#{user.fullname},",
+		"username=lower(#{user.username}),",
+		"password=#{user.password},",
+		"admin=#{user.admin}",
 		"where id=#{user.id}"
 	})
 	void update(@Param("user") User user);

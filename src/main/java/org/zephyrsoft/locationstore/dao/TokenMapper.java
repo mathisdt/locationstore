@@ -32,10 +32,10 @@ public interface TokenMapper {
 	
 	@Insert({
 		"insert into token (username, token)",
-		"values (#{token.username}, #{token.token})"
+		"values (#{username}, #{token.token})"
 	})
 	@Options(useGeneratedKeys = true, keyProperty = "token.id")
-	void insert(@Param("token") Token token);
+	void insertForUser(@Param("username") String username, @Param("token") Token token);
 	
 	@Delete({
 		"delete from token",
