@@ -11,6 +11,7 @@ import org.zephyrsoft.locationstore.dao.TokenMapper;
 import org.zephyrsoft.locationstore.dao.TransactionalDao;
 import org.zephyrsoft.locationstore.dao.UserMapper;
 import org.zephyrsoft.locationstore.model.Token;
+import org.zephyrsoft.locationstore.model.Token.TokenProperties;
 import org.zephyrsoft.locationstore.model.User;
 import org.zephyrsoft.locationstore.model.User.UserProperties;
 import org.zephyrsoft.locationstore.ui.Pages;
@@ -190,6 +191,7 @@ public class AdminPage extends VerticalLayout implements View {
 		// TODO externalize window & content definition?
 		Window popup = new Window(title);
 		popup.setModal(true);
+		popup.setWidth(350, Unit.PIXELS);
 		
 		VerticalLayout popupContent = new VerticalLayout();
 		popupContent.setSpacing(true);
@@ -227,6 +229,43 @@ public class AdminPage extends VerticalLayout implements View {
 		popupContent.addComponent(admin);
 		
 		// TODO token list with add/remove buttons
+		BeanItemContainer<Token> tokenDataSource = new BeanItemContainer<>(Token.class);
+		tokenDataSource.addAll(tokens);
+		GeneratedPropertyContainer tokenDataSourceWrapper = new GeneratedPropertyContainer(tokenDataSource);
+		tokenDataSourceWrapper.removeContainerProperty(TokenProperties.ID);
+		Grid tokenGrid = new Grid(tokenDataSourceWrapper);
+		popupContent.addComponent(tokenGrid);
+		tokenGrid.setWidth(100, Unit.PERCENTAGE);
+		tokenGrid.setHeight(200, Unit.PIXELS);
+		HorizontalLayout buttonBar = new HorizontalLayout();
+		popupContent.addComponent(buttonBar);
+		popupContent.setComponentAlignment(buttonBar, Alignment.MIDDLE_RIGHT);
+		buttonBar.setSpacing(true);
+		Button add = new Button("Add");
+		add.addClickListener(event -> {
+			// TODO
+		});
+		buttonBar.addComponent(add);
+		buttonBar.setComponentAlignment(add, Alignment.MIDDLE_RIGHT);
+		Button delete = new Button("Delete");
+		delete.addClickListener(event -> {
+			Token tokenToDelete = (Token) tokenGrid.getSelectedRow();
+			ConfirmDialog.show(getUI(), "Question", "Really delete token \"" + tokenToDelete.getToken() + "\"?",
+				"Yes, delete", "No, cancel", dialog -> {
+					if (dialog.isConfirmed()) {
+						tokens.remove(tokenToDelete);
+						tokenDataSource.removeItem(tokenToDelete);
+					}
+				});
+		});
+		delete.setEnabled(false);
+		buttonBar.addComponent(delete);
+		buttonBar.setComponentAlignment(delete, Alignment.MIDDLE_RIGHT);
+		
+		tokenGrid.setSelectionMode(SelectionMode.SINGLE);
+		tokenGrid.addSelectionListener(event -> {
+			delete.setEnabled(event.getSelected().size() > 0);
+		});
 		
 		Button save = new Button("Save");
 		save.addClickListener(event -> {
