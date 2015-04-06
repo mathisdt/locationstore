@@ -11,10 +11,13 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 public class Location {
 	
 	public static final class LocationProperties {
+		// normal properties
 		public static final String ID = "id";
 		public static final String INSTANT = "instant";
 		public static final String LATITUDE = "latitude";
 		public static final String LONGITUDE = "longitude";
+		// generated properties
+		public static final String INSTANT_JSON = "instantJson";
 	}
 	
 	private Long id;
