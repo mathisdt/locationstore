@@ -16,9 +16,11 @@ import org.zephyrsoft.locationstore.model.User;
 import org.zephyrsoft.locationstore.model.User.UserProperties;
 import org.zephyrsoft.locationstore.ui.Pages;
 import org.zephyrsoft.locationstore.ui.Roles;
+import org.zephyrsoft.locationstore.util.TokenUtil;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.GeneratedPropertyContainer;
 import com.vaadin.data.util.MethodProperty;
@@ -190,8 +192,9 @@ public class AdminPage extends VerticalLayout implements View {
 		
 		// TODO externalize window & content definition?
 		Window popup = new Window(title);
+		popup.setResizable(false);
 		popup.setModal(true);
-		popup.setWidth(350, Unit.PIXELS);
+		popup.setWidth(450, Unit.PIXELS);
 		
 		VerticalLayout popupContent = new VerticalLayout();
 		popupContent.setSpacing(true);
@@ -228,7 +231,6 @@ public class AdminPage extends VerticalLayout implements View {
 		admin.setDescription("Administrator");
 		popupContent.addComponent(admin);
 		
-		// TODO token list with add/remove buttons
 		BeanItemContainer<Token> tokenDataSource = new BeanItemContainer<>(Token.class);
 		tokenDataSource.addAll(tokens);
 		GeneratedPropertyContainer tokenDataSourceWrapper = new GeneratedPropertyContainer(tokenDataSource);
@@ -243,7 +245,50 @@ public class AdminPage extends VerticalLayout implements View {
 		buttonBar.setSpacing(true);
 		Button add = new Button("Add");
 		add.addClickListener(event -> {
-			// TODO
+			Window addPopup = new Window("Add Token");
+			addPopup.setResizable(false);
+			addPopup.setModal(true);
+			addPopup.setWidth(350, Unit.PIXELS);
+			
+			VerticalLayout addPopupContent = new VerticalLayout();
+			addPopupContent.setSpacing(true);
+			addPopupContent.setMargin(true);
+			addPopup.setContent(addPopupContent);
+			
+			TextField token = new TextField();
+			token.setImmediate(true);
+			token.setBuffered(false);
+			token.setNullRepresentation("");
+			token.setWidth(100, Unit.PERCENTAGE);
+			addPopupContent.addComponent(token);
+			token.addValidator(value -> {
+				if (value != null && !(value instanceof String)) {
+					throw new IllegalArgumentException("wrong type, value has to be java.lang.String");
+				}
+				String string = (String) value;
+				if (string == null || string.length() < 5 || string.length() > 20) {
+					throw new InvalidValueException("token length has to be between 5 and 20 characters");
+				}
+				if (!string.matches("^[0-9a-zA-Z]+$")) {
+					throw new InvalidValueException("token may only contain 0-9, a-z and A-Z");
+				}
+			});
+			token.setValue(TokenUtil.generate(8));
+			
+			Button okButton = new Button("OK");
+			addPopupContent.addComponent(okButton);
+			addPopupContent.setComponentAlignment(okButton, Alignment.MIDDLE_RIGHT);
+			okButton.addClickListener(okClickEvent -> {
+				if (token.isValid()) {
+					Token tokenToAdd = new Token();
+					tokenToAdd.setToken(token.getValue());
+					tokens.add(tokenToAdd);
+					tokenDataSource.addItem(tokenToAdd);
+					getUI().removeWindow(addPopup);
+				}
+			});
+			
+			getUI().addWindow(addPopup);
 		});
 		buttonBar.addComponent(add);
 		buttonBar.setComponentAlignment(add, Alignment.MIDDLE_RIGHT);
