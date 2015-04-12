@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.VaadinRequest;
@@ -29,6 +30,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Title("Location Store")
+@Widgetset("VaadinWidgetSet")
 @Theme("valo")
 @SpringUI(path = "/login")
 // SpringUI path is relative to Vaadin's base mapping configured in vaadin.servlet.urlMapping

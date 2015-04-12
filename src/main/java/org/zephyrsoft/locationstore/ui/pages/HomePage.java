@@ -85,7 +85,7 @@ public class HomePage extends HorizontalLayout implements View {
 		});
 		
 		OLMap map = new OLMap();
-		map.setHeight(100, Unit.PERCENTAGE);
+		map.setSizeFull();
 		OLMapQuestSource mapSource = new OLMapQuestSource(OLMapQuestLayerName.OSM);
 		OLTileLayer layer = new OLTileLayer(mapSource);
 		map.addLayer(layer);

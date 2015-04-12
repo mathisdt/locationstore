@@ -8,6 +8,7 @@ import org.zephyrsoft.locationstore.ui.pages.HomePage;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
@@ -22,6 +23,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Title("Location Store")
+@Widgetset("VaadinWidgetSet")
 @Theme("valo")
 @SpringUI
 // SpringUI path is relative to Vaadin's base mapping configured in vaadin.servlet.urlMapping
