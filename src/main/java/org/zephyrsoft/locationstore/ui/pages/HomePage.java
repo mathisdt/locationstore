@@ -11,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.vaadin.addon.vol3.OLMap;
 import org.vaadin.addon.vol3.OLView;
+import org.vaadin.addon.vol3.client.OLCoordinate;
 import org.vaadin.addon.vol3.layer.OLTileLayer;
 import org.vaadin.addon.vol3.source.OLOSMSource;
 import org.vaadin.addon.vol3.source.OLOSMSourceOptions;
@@ -29,6 +30,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.HorizontalLayout;
 
 @Secured(Roles.USER)
@@ -41,6 +43,7 @@ public class HomePage extends HorizontalLayout implements View {
 	
 	private BeanItemContainer<Location> dataSource;
 	private GeneratedPropertyContainer dataSourceWrapper;
+	private OLView view;
 	
 	@Autowired
 	public HomePage(LocationMapper locationMapper) {
@@ -84,19 +87,28 @@ public class HomePage extends HorizontalLayout implements View {
 				return String.class;
 			}
 		});
+		grid.setSelectionMode(SelectionMode.SINGLE);
+		grid.addSelectionListener(event -> {
+			if (!event.getSelected().isEmpty()) {
+				Location selected = (Location) event.getSelected().iterator().next();
+				// TODO is the projection right?
+				view.setCenter(
+					new OLCoordinate(selected.getLongitude().doubleValue(), selected.getLatitude().doubleValue()));
+				view.setZoom(7);
+			}
+		});
 		
 		OLMap map = new OLMap();
 		map.setSizeFull();
 		OLOSMSourceOptions opts = new OLOSMSourceOptions();
 		opts.setMaxZoom(18);
-		opts.setShowDataAttributions(Boolean.FALSE);
-		opts.setShowTileAttributions(Boolean.FALSE);
 		OLOSMSource olSource = new OLOSMSource(opts);
 		OLTileLayer layer = new OLTileLayer(olSource);
 		map.addLayer(layer);
-		OLView view = new OLView();
+		view = new OLView();
 		view.setZoom(1);
 		view.setCenter(0, 0);
+		map.setAttributionControl(null);
 		map.setView(view);
 		addComponent(map);
 		setComponentAlignment(map, Alignment.MIDDLE_RIGHT);
