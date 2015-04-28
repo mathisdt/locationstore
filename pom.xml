@@ -40,10 +40,10 @@
 		<version.java>${java.version}</version.java>
 
 		<!-- dependency versions -->
-		<version.vaadin>7.4.3</version.vaadin>
+		<version.vaadin>7.4.4</version.vaadin>
 		<version.vaadin-spring-boot>1.0.0.beta2</version.vaadin-spring-boot>
 		<version.vaadin-confirmdialog>2.1.2</version.vaadin-confirmdialog>
-		<version.vaadin-openlayers>0.1.4</version.vaadin-openlayers>
+		<version.vaadin-openlayers>0.1.5</version.vaadin-openlayers>
 		<version.spring-loaded>1.2.3.RELEASE</version.spring-loaded>
 		<version.log4j-extras>1.1</version.log4j-extras>
 		<version.guava>18.0</version.guava>
@@ -51,9 +51,9 @@
 		<version.mybatis-spring>1.2.2</version.mybatis-spring>
 		<version.c3p0>0.9.5</version.c3p0>
 		<!-- use new release of Spring Security even though Boot does not have it yet -->
-		<spring-security.version>4.0.0.RELEASE</spring-security.version>
+		<spring-security.version>4.0.1.RELEASE</spring-security.version>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -273,7 +273,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
@@ -294,7 +294,7 @@
                     </execution>
                 </executions>
             </plugin>
-		
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

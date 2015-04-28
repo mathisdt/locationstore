@@ -11,10 +11,15 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.vaadin.addon.vol3.OLMap;
 import org.vaadin.addon.vol3.OLView;
+import org.vaadin.addon.vol3.OLViewOptions;
 import org.vaadin.addon.vol3.client.OLCoordinate;
+import org.vaadin.addon.vol3.client.Projections;
+import org.vaadin.addon.vol3.feature.OLPoint;
 import org.vaadin.addon.vol3.layer.OLTileLayer;
+import org.vaadin.addon.vol3.layer.OLVectorLayer;
 import org.vaadin.addon.vol3.source.OLOSMSource;
 import org.vaadin.addon.vol3.source.OLOSMSourceOptions;
+import org.vaadin.addon.vol3.source.OLVectorSource;
 import org.zephyrsoft.locationstore.dao.LocationMapper;
 import org.zephyrsoft.locationstore.model.Location;
 import org.zephyrsoft.locationstore.model.Location.LocationProperties;
@@ -45,8 +50,10 @@ public class HomePage extends HorizontalLayout implements View {
 	private GeneratedPropertyContainer dataSourceWrapper;
 	private OLView view;
 	
+	private OLVectorSource vectorSource;
+	
 	@Autowired
-	public HomePage(LocationMapper locationMapper) {
+	public HomePage(final LocationMapper locationMapper) {
 		this.locationMapper = locationMapper;
 		
 		setSpacing(true);
@@ -66,13 +73,15 @@ public class HomePage extends HorizontalLayout implements View {
 			private static final long serialVersionUID = -7843022072932913124L;
 			
 			@Override
-			public LocalDateTime convertToModel(String value, Class<? extends LocalDateTime> targetType, Locale locale)
+			public LocalDateTime convertToModel(final String value, final Class<? extends LocalDateTime> targetType,
+				final Locale locale)
 				throws ConversionException {
 				throw new UnsupportedOperationException("not implemented");
 			}
 			
 			@Override
-			public String convertToPresentation(LocalDateTime value, Class<? extends String> targetType, Locale locale)
+			public String convertToPresentation(final LocalDateTime value, final Class<? extends String> targetType,
+				final Locale locale)
 				throws ConversionException {
 				return formatter.format(value);
 			}
@@ -91,10 +100,15 @@ public class HomePage extends HorizontalLayout implements View {
 		grid.addSelectionListener(event -> {
 			if (!event.getSelected().isEmpty()) {
 				Location selected = (Location) event.getSelected().iterator().next();
-				// TODO is the projection right?
+				// center map
 				view.setCenter(
 					new OLCoordinate(selected.getLongitude().doubleValue(), selected.getLatitude().doubleValue()));
-				view.setZoom(7);
+				// set marker
+				vectorSource.getFeatures().forEach(item -> vectorSource.removeFeatureById(item.getId()));
+				vectorSource.addFeature(
+					new OLPoint(selected.getLongitude().doubleValue(), selected.getLatitude().doubleValue()));
+				// set zoom
+				view.setZoom(12);
 			}
 		});
 		
@@ -105,7 +119,13 @@ public class HomePage extends HorizontalLayout implements View {
 		OLOSMSource olSource = new OLOSMSource(opts);
 		OLTileLayer layer = new OLTileLayer(olSource);
 		map.addLayer(layer);
-		view = new OLView();
+		vectorSource = new OLVectorSource();
+		OLVectorLayer vectorLayer = new OLVectorLayer(vectorSource);
+		map.addLayer(vectorLayer);
+		OLViewOptions options = new OLViewOptions();
+		options.setMapProjection(Projections.EPSG3857);
+		options.setInputProjection(Projections.EPSG4326);
+		view = new OLView(options);
 		view.setZoom(1);
 		view.setCenter(0, 0);
 		map.setAttributionControl(null);
@@ -121,7 +141,7 @@ public class HomePage extends HorizontalLayout implements View {
 	}
 	
 	@Override
-	public void enter(ViewChangeEvent event) {
+	public void enter(final ViewChangeEvent event) {
 		refresh();
 	}
 	
