@@ -18,8 +18,11 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @SpringBootApplication
 @EnableTransactionManagement
+// @EnableVaadinServlet
 @MapperScan(basePackages = "org.zephyrsoft.locationstore.dao", annotationClass = MapperInterface.class)
 public class Application {
+	
+	// private static final Logger LOG = LoggerFactory.getLogger(Application.class);
 	
 	@Value("${db.driver}")
 	private String dbDriver;
@@ -29,6 +32,27 @@ public class Application {
 	private String dbUser;
 	@Value("${db.password}")
 	private String dbPassword;
+	
+	// @Bean
+	// public ServletRegistrationBean vaadinServletRegistration() {
+	// LOG.info("Registering Vaadin servlet");
+	//
+	// final String[] urlMappings = new String[] { "/auth/*", "/ui/*", "/VAADIN/*", "/UIDL/*", "/PUSH/*" };
+	// LOG.info("Servlet will be mapped to URLs {}", (Object) urlMappings);
+	//
+	// final SpringVaadinServlet servlet = vaadinServlet();
+	// // servlet.setServiceUrlPath("/ui"); // since vaadin-spring-boot 1.0.0.beta3
+	//
+	// final ServletRegistrationBean registrationBean = new ServletRegistrationBean(servlet, urlMappings);
+	// registrationBean.addInitParameter(VaadinServlet.SERVLET_PARAMETER_PRODUCTION_MODE, Boolean.TRUE.toString());
+	//
+	// return registrationBean;
+	// }
+	
+	// @Bean
+	// public SpringVaadinServlet vaadinServlet() {
+	// return new SpringVaadinServlet();
+	// }
 	
 	@Bean
 	public DataSource dataSource() throws PropertyVetoException {

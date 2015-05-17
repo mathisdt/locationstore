@@ -48,6 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.userDetailsService(userDetailsService())
 			.csrf().disable()
+			.headers().frameOptions().disable()
+			.and()
 			.exceptionHandling()
 			.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint(vaadinLoginUrl));
 	}
