@@ -1,29 +1,32 @@
 package org.zephyrsoft.locationstore.ui;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.common.base.Joiner;
 
 /**
  * Redirects from / to /ui
  */
-@Controller
+@Path("/")
 public class RedirectController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(RedirectController.class);
 	
-	@RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.POST })
-	public String index(HttpServletRequest request) {
+	@GET
+	@Path("")
+	public String index(@Context HttpServletRequest request, @Context HttpServletResponse response) {
 		List<String> params = new LinkedList<>();
 		for (String key : request.getParameterMap().keySet()) {
 			for (String value : request.getParameterMap().get(key)) {
@@ -31,10 +34,15 @@ public class RedirectController {
 			}
 		}
 		String queryString = Joiner.on("&").join(params);
-		LOG.debug("redirecting to /ui"
-			+ (StringUtils.isEmpty(queryString) ? "" : "?" + queryString));
-		return "redirect:/ui"
-			+ (StringUtils.isEmpty(queryString) ? "" : "?" + queryString);
+		String redirectUrl = "/ui" + (StringUtils.isEmpty(queryString) ? "" : "?" + queryString);
+		
+		LOG.debug("redirecting to " + redirectUrl);
+		try {
+			response.sendRedirect(redirectUrl);
+		} catch (IOException e) {
+			LOG.error("error while redirecting to " + redirectUrl, e);
+		}
+		return "";
 	}
 	
 }

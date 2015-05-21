@@ -4,21 +4,19 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.zephyrsoft.locationstore.dao.LocationMapper;
 import org.zephyrsoft.locationstore.model.Location;
 import org.zephyrsoft.locationstore.service.AuthenticationService;
 
-/**
- * No {@code @RequestMapping(produces = "...")} because it breaks some tests!
- */
-@RestController
-@RequestMapping("/ws")
+@Path("/ws")
 public class WebService {
 	
 	private final AuthenticationService authenticationService;
@@ -30,18 +28,20 @@ public class WebService {
 		this.locationMapper = locationMapper;
 	}
 	
-	@RequestMapping(value = "",
-		method = RequestMethod.GET)
-	public String info(HttpServletRequest request) {
+	@GET
+	@Path("")
+	@Produces(MediaType.TEXT_HTML)
+	public String info(@Context HttpServletRequest request) {
 		String basePath = request.getRequestURL().toString().replaceAll("/ws/?$", "");
 		return "<strong>This is the web service</strong> - perhaps you want to <a href=\"" +
 			basePath + "\">go to web application</a>?";
 	}
 	
-	@RequestMapping(value = "/{username}/{token}/locations",
-		method = RequestMethod.GET)
-	public List<Location> getUser(@PathVariable("username") final String username,
-		@PathVariable("token") final String token) {
+	@GET
+	@Path(value = "/{username}/{token}/locations")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Location> getUser(@PathParam("username") final String username,
+		@PathParam("token") final String token) {
 		
 		if (authenticationService.isAuthorized(username, token)) {
 			return locationMapper.read(username);
@@ -50,11 +50,12 @@ public class WebService {
 		}
 	}
 	
-	@RequestMapping(value = "/{username}/{token}/add-location/{latitude:[\\d\\.]+}/{longitude:[\\d\\.]+}",
-		method = RequestMethod.GET)
-	public String addLocation(@PathVariable("username") final String username,
-		@PathVariable("token") final String token, @PathVariable("latitude") final BigDecimal latitude,
-		@PathVariable("longitude") final BigDecimal longitude) {
+	@GET
+	@Path(value = "/{username}/{token}/add-location/{latitude:[\\d\\.]+}/{longitude:[\\d\\.]+}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String addLocation(@PathParam("username") final String username,
+		@PathParam("token") final String token, @PathParam("latitude") final BigDecimal latitude,
+		@PathParam("longitude") final BigDecimal longitude) {
 		
 		if (authenticationService.isAuthorized(username, token)) {
 			locationMapper.insert(username, new Location(latitude, longitude));

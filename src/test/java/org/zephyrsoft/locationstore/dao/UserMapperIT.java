@@ -20,7 +20,7 @@ public class UserMapperIT {
 	@Test
 	public void read() {
 		User userTest1 = userMapper.read("test1");
-		assertEquals("test1pw", userTest1.getPassword());
+		assertEquals("Test 1", userTest1.getFullname());
 	}
 	
 }

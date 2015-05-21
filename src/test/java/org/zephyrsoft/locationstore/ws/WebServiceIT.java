@@ -20,6 +20,7 @@ import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.zephyrsoft.locationstore.Application;
 import org.zephyrsoft.locationstore.dao.LocationMapper;
@@ -29,6 +30,7 @@ import org.zephyrsoft.locationstore.util.DateTimeUtil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest({ "server.port=0", "management.port=0" })
+@Transactional
 public class WebServiceIT {
 	
 	@Value("${local.server.port}")
