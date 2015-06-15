@@ -29,7 +29,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.3.RELEASE</version>
+		<version>1.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -40,16 +40,18 @@
 		<version.java>${java.version}</version.java>
 
 		<!-- dependency versions -->
-		<version.vaadin>7.4.6</version.vaadin>
+		<version.vaadin>7.4.8</version.vaadin>
 		<version.vaadin-spring-boot>1.0.0.beta3</version.vaadin-spring-boot>
 		<version.vaadin-confirmdialog>2.1.2</version.vaadin-confirmdialog>
 		<version.vaadin-openlayers>0.1.5</version.vaadin-openlayers>
 		<version.spring-loaded>1.2.3.RELEASE</version.spring-loaded>
 		<version.log4j-extras>1.1</version.log4j-extras>
 		<version.guava>18.0</version.guava>
-		<version.mybatis>3.2.8</version.mybatis>
+		<version.mybatis>3.3.0</version.mybatis>
 		<version.mybatis-spring>1.2.2</version.mybatis-spring>
 		<version.c3p0>0.9.5</version.c3p0>
+		<version.commons-lang3>3.3.2</version.commons-lang3>
+		<version.commons-httpclient>3.1</version.commons-httpclient>
 		<!-- use new release of Spring Security even though Boot does not have it yet -->
 		<spring-security.version>4.0.1.RELEASE</spring-security.version>
 	</properties>
@@ -181,7 +183,7 @@
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
+			<version>${version.commons-httpclient}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -192,7 +194,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
+			<version>${version.commons-lang3}</version>
 		</dependency>
 	</dependencies>
 
