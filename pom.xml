@@ -48,7 +48,7 @@
 		<version.log4j-extras>1.1</version.log4j-extras>
 		<version.guava>18.0</version.guava>
 		<version.mybatis>3.3.0</version.mybatis>
-		<version.mybatis-spring>1.2.2</version.mybatis-spring>
+		<version.mybatis-spring>1.2.3</version.mybatis-spring>
 		<version.c3p0>0.9.5</version.c3p0>
 		<version.commons-lang3>3.3.2</version.commons-lang3>
 		<version.commons-httpclient>3.1</version.commons-httpclient>
