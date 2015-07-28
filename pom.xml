@@ -40,7 +40,7 @@
 		<version.java>${java.version}</version.java>
 
 		<!-- dependency versions -->
-		<version.vaadin>7.5.1</version.vaadin>
+		<version.vaadin>7.5.2</version.vaadin>
 		<version.vaadin-spring-boot>1.0.0.beta3</version.vaadin-spring-boot>
 		<version.vaadin-confirmdialog>2.1.2</version.vaadin-confirmdialog>
 		<version.vaadin-openlayers>0.1.5</version.vaadin-openlayers>
@@ -53,7 +53,7 @@
 		<version.commons-lang3>3.3.2</version.commons-lang3>
 		<version.commons-httpclient>3.1</version.commons-httpclient>
 		<!-- use new release of Spring Security even though Boot does not have it yet -->
-		<spring-security.version>4.0.1.RELEASE</spring-security.version>
+		<spring-security.version>4.0.2.RELEASE</spring-security.version>
 	</properties>
 
 	<dependencyManagement>
