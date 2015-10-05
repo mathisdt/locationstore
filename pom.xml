@@ -41,7 +41,7 @@
 
 		<!-- dependency versions -->
 		<spring.version>4.2.1.RELEASE</spring.version>
-		<version.vaadin>7.5.6</version.vaadin>
+		<version.vaadin>7.5.7</version.vaadin>
 		<version.vaadin-spring-boot>1.0.0</version.vaadin-spring-boot>
 		<version.vaadin-confirmdialog>2.1.2</version.vaadin-confirmdialog>
 		<version.vaadin-openlayers>0.1.5</version.vaadin-openlayers>
