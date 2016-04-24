@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.type.JdbcType;
-import org.zephyrsoft.locationstore.dao.typehandler.LocalDateTimeTypeHandler;
 import org.zephyrsoft.locationstore.model.Location;
 
 @MapperInterface
@@ -24,15 +23,14 @@ public interface LocationMapper {
 	@Results({
 		@Result(column = "instant",
 			property = "instant",
-			jdbcType = JdbcType.TIMESTAMP,
-			typeHandler = LocalDateTimeTypeHandler.class)
+			jdbcType = JdbcType.TIMESTAMP)
 	})
 	List<Location> read(@Param("username") String username);
 	
 	@Insert({
 		"insert into location (username, instant, latitude, longitude) values (",
 		"lower(#{username}),",
-		"#{location.instant,javaType=java.time.LocalDateTime,jdbcType=TIMESTAMP,typeHandler=org.zephyrsoft.locationstore.dao.typehandler.LocalDateTimeTypeHandler},",
+		"#{location.instant,javaType=java.time.LocalDateTime,jdbcType=TIMESTAMP},",
 		"#{location.latitude},",
 		"#{location.longitude}",
 		")"

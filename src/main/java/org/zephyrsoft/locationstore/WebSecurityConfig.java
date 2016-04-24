@@ -1,7 +1,6 @@
 package org.zephyrsoft.locationstore;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,19 +29,13 @@ import com.vaadin.navigator.ViewChangeListener;
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Value("${vaadin.servlet.urlMapping}")
-	private String vaadinBaseMapping;
-	
 	@Autowired
 	private AuthenticationService authenticationService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		String vaadinBaseUrl = vaadinBaseMapping.replaceAll("/?+\\*$", "");
-		String vaadinLoginUrl = vaadinBaseUrl + "/login";
-		
 		http.authorizeRequests()
-			.antMatchers("/ws/**", "/VAADIN/**", vaadinBaseUrl + "/PUSH/**", vaadinBaseUrl + "/UIDL/**", vaadinLoginUrl)
+			.antMatchers("/ws/**", "/ui/login", "/VAADIN/**", "/ui/UIDL/**")
 			.permitAll()
 			.antMatchers("/**").fullyAuthenticated()
 			.and()
@@ -51,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.headers().frameOptions().disable()
 			.and()
 			.exceptionHandling()
-			.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint(vaadinLoginUrl));
+			.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/ui/login"));
 	}
 	
 	@Bean
