@@ -252,33 +252,6 @@
 	    </developer>
 	</developers>
 
-	<repositories>
-		<repository>
-			<id>all</id>
-			<url>${repository_url}</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>Internal Release Repository</name>
-			<url>${repository_release_url}</url>
-		</repository>
-
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>Internal snapshot Repository</name>
-			<url>${repository_snapshot_url}</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<build>
 		<plugins>
 			<plugin>
