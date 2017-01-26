@@ -8,7 +8,7 @@
 	</Appenders>
 
 	<Loggers>
-		<Logger name="org.zephyrsoft.locationstore.dao" level="INFO" />
+		<Logger name="org.zephyrsoft.locationstore.dao" level="debug" />
 		<Logger name="org.springframework" level="WARN" />
 		<Logger name="org.springframework.security" level="INFO" />
 		<Logger name="org.springframework.jdbc" level="INFO" />

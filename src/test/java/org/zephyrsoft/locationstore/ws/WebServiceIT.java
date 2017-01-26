@@ -11,25 +11,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.hamcrest.collection.IsIterableContainingInOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.TestRestTemplate;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 import org.zephyrsoft.locationstore.Application;
 import org.zephyrsoft.locationstore.dao.LocationMapper;
 import org.zephyrsoft.locationstore.model.Location;
 import org.zephyrsoft.locationstore.util.DateTimeUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest({ "server.port=0", "management.port=0" })
+@SpringBootTest(classes = Application.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @Transactional
 public class WebServiceIT {
 	
@@ -38,7 +37,7 @@ public class WebServiceIT {
 	@Autowired
 	private LocationMapper locationMapper;
 	
-	private RestTemplate restClient = new TestRestTemplate();
+	private TestRestTemplate restClient = new TestRestTemplate();
 	
 	@Test
 	public void infoMessage() {
@@ -55,7 +54,7 @@ public class WebServiceIT {
 			"http://localhost:" + serverPort + "/ws/test1/TEST1-TOKEN2/locations", List.class).getBody();
 		assertNotNull(locationsTest1Token1);
 		assertNotNull(locationsTest1Token2);
-		assertEquals(3, locationsTest1Token1.size());
+		assertEquals(4, locationsTest1Token1.size());
 		assertThat(locationsTest1Token1, IsIterableContainingInOrder.contains(locationsTest1Token2.toArray()));
 		
 		List<Map<String, Object>> locationsTest2Token1 = restClient.getForEntity(
@@ -63,8 +62,8 @@ public class WebServiceIT {
 		assertNotNull(locationsTest2Token1);
 		assertEquals(4, locationsTest2Token1.size());
 		
-		assertEquals(40.49, locationsTest2Token1.get(0).get("latitude"));
-		assertEquals(1.123, locationsTest2Token1.get(0).get("longitude"));
+		assertEquals(52.377, locationsTest2Token1.get(0).get("latitude"));
+		assertEquals(9.739, locationsTest2Token1.get(0).get("longitude"));
 		assertTrue(DateTimeUtil.fromString((String) locationsTest2Token1.get(0).get("instant"))
 			.isBefore(LocalDateTime.now().minus(10, ChronoUnit.DAYS)));
 	}
@@ -94,6 +93,7 @@ public class WebServiceIT {
 	}
 	
 	@Test
+	@Ignore("authentication mechanism is subject to change - see issue #5 on Github")
 	public void unauthorizedAccess() throws Exception {
 		HttpStatus status = restClient.getForEntity(
 			"http://localhost:" + serverPort + "/ws/test1/TEST1-TOKEN-INVALID/locations", String.class).getStatusCode();

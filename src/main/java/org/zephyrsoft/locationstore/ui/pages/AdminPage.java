@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -46,6 +48,8 @@ import com.vaadin.ui.renderers.HtmlRenderer;
 public class AdminPage extends VerticalLayout implements View {
 	
 	private static final long serialVersionUID = 146768140068343010L;
+	
+	private static final Logger LOG = LoggerFactory.getLogger(AdminPage.class);
 	
 	private static final String TOKENCOUNT = "tokencount";
 	
@@ -257,6 +261,7 @@ public class AdminPage extends VerticalLayout implements View {
 			
 			TextField token = new TextField();
 			token.setImmediate(true);
+			token.setRequired(true);
 			token.setBuffered(false);
 			token.setNullRepresentation("");
 			token.setWidth(100, Unit.PERCENTAGE);
@@ -271,6 +276,12 @@ public class AdminPage extends VerticalLayout implements View {
 				}
 				if (!string.matches("^[0-9a-zA-Z]+$")) {
 					throw new InvalidValueException("token may only contain 0-9, a-z and A-Z");
+				}
+				boolean alreadyTaken = tokenMapper.alreadyTaken(string);
+				LOG.error("token {} is already taken: {}", string, alreadyTaken);
+				System.out.println("KEDLSDKJFHLSDKJFHLSDKJFHLSKJFHDSLKF ==================");
+				if (alreadyTaken) {
+					throw new InvalidValueException("token is already taken, choose another one");
 				}
 			});
 			token.setValue(TokenUtil.generate(8));

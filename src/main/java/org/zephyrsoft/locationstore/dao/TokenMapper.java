@@ -20,6 +20,12 @@ public interface TokenMapper {
 	
 	@Select({
 		"select count(*) from token",
+		"where token=#{token}"
+	})
+	boolean alreadyTaken(@Param("token") String token);
+	
+	@Select({
+		"select count(*) from token",
 		"where username=#{username}"
 	})
 	Long count(@Param("username") String username);
