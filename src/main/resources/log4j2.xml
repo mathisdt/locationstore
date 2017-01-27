@@ -10,7 +10,7 @@
 	<Loggers>
 		<Logger name="org.zephyrsoft.locationstore.dao" level="debug" />
 		<Logger name="org.springframework" level="warn" />
-		<Logger name="org.springframework.security" level="warn" />
+		<Logger name="org.springframework.security" level="debug" />
 		<Logger name="org.springframework.jdbc" level="info" />
 		<Logger name="com.vaadin.spring" level="info" />
 		<Logger name="org.mybatis.spring" level="info" />
