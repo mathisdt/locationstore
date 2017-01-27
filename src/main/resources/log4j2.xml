@@ -9,15 +9,16 @@
 
 	<Loggers>
 		<Logger name="org.zephyrsoft.locationstore.dao" level="debug" />
-		<Logger name="org.springframework" level="WARN" />
-		<Logger name="org.springframework.security" level="INFO" />
-		<Logger name="org.springframework.jdbc" level="INFO" />
-		<Logger name="com.vaadin.spring" level="INFO" />
-		<Logger name="org.mybatis.spring" level="INFO" />
-		<Logger name="org.apache.ibatis" level="WARN" />
-		<Logger name="org.jboss.logging" level="WARN" />
-		<Logger name="com.mchange" level="WARN" />
-		<Logger name="org.apache.coyote" level="WARN" />
+		<Logger name="org.springframework" level="warn" />
+		<Logger name="org.springframework.security" level="warn" />
+		<Logger name="org.springframework.jdbc" level="info" />
+		<Logger name="com.vaadin.spring" level="info" />
+		<Logger name="org.mybatis.spring" level="info" />
+		<Logger name="org.apache.ibatis" level="warn" />
+		<Logger name="org.hibernate" level="warn" />
+		<Logger name="org.jboss.logging" level="warn" />
+		<Logger name="com.mchange" level="warn" />
+		<Logger name="org.apache.coyote" level="warn" />
 	
 		<Root level="debug">
 			<AppenderRef ref="CONSOLE" />
