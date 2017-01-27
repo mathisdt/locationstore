@@ -41,9 +41,9 @@ public class Application {
 		dataSource.setPassword(dbPassword);
 		dataSource.setInitialPoolSize(1);
 		dataSource.setMinPoolSize(1);
-		dataSource.setMaxPoolSize(4);
+		dataSource.setMaxPoolSize(10);
 		dataSource.setTestConnectionOnCheckin(false);
-		dataSource.setMaxIdleTime(300);
+		dataSource.setMaxIdleTimeExcessConnections(300);
 		return dataSource;
 	}
 	

@@ -66,7 +66,7 @@ public class VaadinUI extends UI {
 			+ " (" + user.getUsername() + ")");
 		titleBarRightTop.addComponent(userInfo);
 		titleBarRightTop.setComponentAlignment(userInfo, Alignment.MIDDLE_RIGHT);
-		Button logout = new Button("log out");
+		Button logout = new Button("Logout");
 		logout.setStyleName(ValoTheme.BUTTON_SMALL);
 		logout.addClickListener(event -> {
 			getPage().setLocation("/logout");

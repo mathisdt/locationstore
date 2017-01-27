@@ -261,7 +261,6 @@ public class AdminPage extends VerticalLayout implements View {
 			
 			TextField token = new TextField();
 			token.setImmediate(true);
-			token.setRequired(true);
 			token.setBuffered(false);
 			token.setNullRepresentation("");
 			token.setWidth(100, Unit.PERCENTAGE);
@@ -278,8 +277,7 @@ public class AdminPage extends VerticalLayout implements View {
 					throw new InvalidValueException("token may only contain 0-9, a-z and A-Z");
 				}
 				boolean alreadyTaken = tokenMapper.alreadyTaken(string);
-				LOG.error("token {} is already taken: {}", string, alreadyTaken);
-				System.out.println("KEDLSDKJFHLSDKJFHLSDKJFHLSKJFHDSLKF ==================");
+				LOG.debug("token {} is already taken: {}", string, alreadyTaken);
 				if (alreadyTaken) {
 					throw new InvalidValueException("token is already taken, choose another one");
 				}
