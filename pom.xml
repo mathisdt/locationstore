@@ -74,6 +74,15 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
+	<repositories>
+		<repository>
+			<id>vaadin-addons</id>
+			<name>Vaadin Addons</name>
+			<url>http://maven.vaadin.com/vaadin-addons/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<!-- pulled up to take precedence over any indirect dependency -->
