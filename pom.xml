@@ -40,10 +40,10 @@
 		<version.java>${java.version}</version.java>
 
 		<!-- dependency versions -->
-		<spring.version>4.3.6.RELEASE</spring.version>
+		<spring.version>4.3.7.RELEASE</spring.version>
 		<version.spring-loaded>1.2.6.RELEASE</version.spring-loaded>
 		<!-- use new release of Spring Security even though Boot does not have it yet -->
-		<spring-security.version>4.2.1.RELEASE</spring-security.version>
+		<spring-security.version>4.2.2.RELEASE</spring-security.version>
 
 		<hibernate-validator.version>5.3.4.Final</hibernate-validator.version>
 		<version.vaadin>7.7.6</version.vaadin>
