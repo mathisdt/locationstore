@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/ui/login", "/VAADIN/**", "/ui/UIDL/**").permitAll()
+			.antMatchers("/login").permitAll()
 			.anyRequest().fullyAuthenticated()
 			.and()
 			.exceptionHandling()
@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public LoginUrlAuthenticationEntryPoint formEntryPoint() {
-		return new LoginUrlAuthenticationEntryPoint("/ui/login");
+		return new LoginUrlAuthenticationEntryPoint("/login");
 	}
 	
 	@Bean

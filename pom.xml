@@ -29,7 +29,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.2.RELEASE</version>
+		<version>1.4.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -47,7 +47,7 @@
 
 		<hibernate-validator.version>5.3.4.Final</hibernate-validator.version>
 		<version.vaadin>7.7.7</version.vaadin>
-		<version.vaadin-springboot>2.0.0</version.vaadin-springboot>
+		<version.vaadin-springboot>1.1.1</version.vaadin-springboot>
 		<version.vaadin-confirmdialog>2.1.3</version.vaadin-confirmdialog>
 		<version.vaadin-openlayers>1.3</version.vaadin-openlayers>
 		
@@ -59,6 +59,7 @@
 		<version.glassfish-javax-el>2.2.6</version.glassfish-javax-el>
 		<version.javax-el>2.2.5</version.javax-el>
 		<version.guava>21.0</version.guava>
+		<version.commons-io>2.5</version.commons-io>
 		
 		<version.commons-lang3>3.5</version.commons-lang3>
 	</properties>
@@ -217,6 +218,11 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${version.guava}</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>${version.commons-io}</version>
 		</dependency>
 		
 		<dependency>
