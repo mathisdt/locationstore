@@ -29,7 +29,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.6.RELEASE</version>
+		<version>1.4.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -40,10 +40,10 @@
 		<version.java>${java.version}</version.java>
 
 		<!-- dependency versions -->
-		<spring.version>4.3.8.RELEASE</spring.version>
+		<spring.version>4.3.9.RELEASE</spring.version>
 		<version.spring-loaded>1.2.6.RELEASE</version.spring-loaded>
 		<!-- use new release of Spring Security even though Boot does not have it yet -->
-		<spring-security.version>4.2.2.RELEASE</spring-security.version>
+		<spring-security.version>4.2.3.RELEASE</spring-security.version>
 
 		<hibernate-validator.version>5.3.4.Final</hibernate-validator.version>
 		<version.vaadin>7.7.7</version.vaadin>
