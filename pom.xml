@@ -40,7 +40,7 @@
 		<version.java>${java.version}</version.java>
 
 		<!-- dependency versions -->
-		<spring.version>4.3.9.RELEASE</spring.version>
+		<spring.version>4.3.10.RELEASE</spring.version>
 		<version.spring-loaded>1.2.6.RELEASE</version.spring-loaded>
 		<!-- use new release of Spring Security even though Boot does not have it yet -->
 		<spring-security.version>4.2.3.RELEASE</spring-security.version>
