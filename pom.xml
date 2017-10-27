@@ -57,7 +57,7 @@
 
 		<version.glassfish-javax-el>2.2.6</version.glassfish-javax-el>
 		<version.javax-el>2.2.5</version.javax-el>
-		<version.guava>23.2-jre</version.guava>
+		<version.guava>23.3-jre</version.guava>
 		<version.commons-io>2.5</version.commons-io>
 		
 		<version.commons-lang3>3.5</version.commons-lang3>
